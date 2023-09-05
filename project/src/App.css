@@ -1,0 +1,67 @@
+.header {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-primary {
+  border-radius: 10px;
+  background: #2093E7;
+  width: 167px;
+  height: 64px;
+  outline: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  &:hover {
+    background-color: #0377ca;
+  }
+}
+.img-section {
+  height: 100vh;
+  margin: 8px;
+}
+.menu1, .menu2 {
+  position: absolute;
+    right: 0;
+}
+.menu1 {
+  top: 0;
+}
+.menu2 {
+  top: 65px;
+  text-align: center;
+}
+.row-header {
+  height: 33%;
+}
+.row {
+  height: 100%;
+}
+.img-block {
+  float: left;
+  width: 29%;
+  height: 100%;
+  overflow: hidden;
+}
+.img-styled {
+  max-width: 100%;
+  width: 100%;
+  top: 70%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  position: relative;
+}
+.row {
+  height: 100%;
+}
+.menu-btn {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+.btn-active {
+  background: brown;
+}
