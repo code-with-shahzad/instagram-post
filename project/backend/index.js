@@ -40,7 +40,7 @@ app.get("/api/instagram", async (req, res) => {
         },
       }
     );
-    const instagramData = instagramResponse.data;
+    const instagramData = instagramResponse.data.data.user.edge_owner_to_timeline_media.edges;
     res.status(200).json(instagramData);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

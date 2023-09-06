@@ -15,7 +15,7 @@ export const fetchInstagramData = async (user) => {
           user: `${user}`,
         },
       });
-      return response.data?.data?.user?.edge_related_profiles;
+      return response.data;
   } catch (error) {
       console.error('Error fetching data:', error);
   }

@@ -7,6 +7,7 @@ export const InstagramViewImages = () => {
     const [isFirstTime, setIsFirstTime] = useState(true);
     const [pBtnActive, setPBtnActive] = useState(false);
     const [rBtnActive, setRBtnActive] = useState(false);
+    const [timer, setTimer] = useState(false);
     const [loading, setLoading] = useState(false);
     const [instagramData, setInstagramData] = useState([]);
     const [userInfoData, setUserInfoData] = useState([]);
@@ -51,6 +52,7 @@ export const InstagramViewImages = () => {
         setIsFirstTime(true);
         setRBtnActive(false);
         setPBtnActive(false);
+        setTimer(false);
         const getUserData = async () => {
             const data = await fetchUserData();
             setUserInfoData(data);
@@ -58,7 +60,7 @@ export const InstagramViewImages = () => {
         getUserData();
     }, []);
 
-    const handleLoop = () => {
+    useEffect(() => {
         let intervalId;
         const getData = async () => {
             if (dummyData[currentShowingRef.current].last_id === 0) {
@@ -67,19 +69,19 @@ export const InstagramViewImages = () => {
                 currentShowingRef.current = currentShowingRef.current + 1;
                 const response = await fetchInstagramData(dummyData[currentShowingRef.current].name);
                 setInstagramData(response);
-                setCurrentIndex(prev => prev + 1);
+                setCurrentIndex(prev=> prev + 1);
             }
         };
-        if (!pBtnActive) {
+        if (!pBtnActive && timer) {
             intervalId = setInterval(getData, 5000);
         } else {
             clearInterval(intervalId);
+            setTimer(false);
         }
         return () => {
             clearInterval(intervalId);
         };
-    }
-
+    }, [pBtnActive, timer]);
 
     const handleOnClick = async () => {
         setLoading(true);
@@ -87,7 +89,7 @@ export const InstagramViewImages = () => {
         const response = await fetchInstagramData(dummyData[0]?.name);
         currentShowingRef.current = 0;
         setInstagramData(response);
-        handleLoop();
+        setTimer(true);
         setLoading(false);
     };
     useEffect(() => {
@@ -114,7 +116,7 @@ export const InstagramViewImages = () => {
         const response = await fetchInstagramData(dummyData[index]?.name);
         currentShowingRef.current = index;
         setInstagramData(response);
-        handleLoop();
+        setTimer(true);
     }
     const getPreviousUser = () => {
         if (currentIndex === 0) {
@@ -139,11 +141,11 @@ export const InstagramViewImages = () => {
         <>
             {isFirstTime ? <div className='header'>
                 <button onClick={handleOnClick} type='button' className='btn-primary'>Start</button>
-            </div> : loading ? <div>loading....</div> : <div>
+            </div> : loading ? <div className='header'>loading....</div> : <div>
                 <div className='menu-main'>
                     <div className='menu1'>
                         <button onClick={getPreviousUser} className='menu-btn'>{'<'}</button>
-                        <button onClick={() => { setPBtnActive(!pBtnActive) }} className={`menu-btn ${pBtnActive && 'btn-active'}`}>P</button>
+                        <button onClick={() => { setPBtnActive(!pBtnActive); setTimer(true) }} className={`menu-btn ${pBtnActive && 'btn-active'}`}>P</button>
                     </div>
                     <div className='menu2'>
                         <button onClick={() => setRBtnActive(true)} className={`menu-btn ${rBtnActive && 'btn-active'}`}>R</button>
@@ -157,10 +159,9 @@ export const InstagramViewImages = () => {
                 <div className='img-section'>
                     <div className='row-header'>
                         <div className='row'>
-                            {instagramData?.edges?.slice(0, 12)?.map((item, idx) => {
-                                console.log('kkkkkkkkkkk', item?.node?.profile_pic_url)
+                            {instagramData?.map((item, idx) => {
                                 return <div key={idx} className='img-block'>
-                                    <img src={item?.node?.profile_pic_url} alt='insta-img' className='img-styled' />
+                                    <img src={item?.node?.thumbnail_src} alt='insta-img' className='img-styled' />
                                 </div>
                             })}
                         </div>
