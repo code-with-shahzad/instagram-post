@@ -65,17 +65,19 @@ export const InstagramViewImages = () => {
             {isFirstTime ? <div className='header'>
                 <button onClick={handleOnClick} type='button' className='btn-primary'>Start</button>
             </div> : <div>
-                <div className='menu1'>
-                    <button className='menu-btn'>{'<'}</button>
-                    <button onClick={() => setPBtnActive(!pBtnActive)} className={`menu-btn ${pBtnActive && 'btn-active'}`}>P</button>
-                </div>
-                <div className='menu2'>
-                    <button onClick={() => setRBtnActive(true)} className={`menu-btn ${rBtnActive && 'btn-active'}`}>R</button>
-                    <div>Profiles showed: 10</div>
-                    <div>%: 44</div>
-                    <div>ID: 4222999785</div>
-                    <div>DB: 16290</div>
-                    <div>Total done: 1</div>
+                <div className='menu-main'>
+                    <div className='menu1'>
+                        <button className='menu-btn'>{'<'}</button>
+                        <button onClick={() => setPBtnActive(!pBtnActive)} className={`menu-btn ${pBtnActive && 'btn-active'}`}>P</button>
+                    </div>
+                    <div className='menu2'>
+                        <button onClick={() => setRBtnActive(true)} className={`menu-btn ${rBtnActive && 'btn-active'}`}>R</button>
+                        <div>Profiles showed: 10</div>
+                        <div>%: 44</div>
+                        <div>ID: 4222999785</div>
+                        <div>DB: 16290</div>
+                        <div>Total done: 1</div>
+                    </div>
                 </div>
                 <div className='img-section'>
                     <div className='row-header'>

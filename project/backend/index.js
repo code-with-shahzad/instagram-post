@@ -31,8 +31,13 @@ db.connect((err) => {
 });
 
 app.get('/api/instagram', async (req, res) => {
+  
   try {
-    const instagramResponse = await axios.get('https://i.instagram.com/api/v1/users/web_profile_info/?username=hermes');
+    const instagramResponse = await axios.get('https://i.instagram.com/api/v1/api/v1/media/2593557762631173202/info', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36',
+      }
+    });
     const instagramData = instagramResponse.data;
 
     // // Extract and send the relevant data to the client
