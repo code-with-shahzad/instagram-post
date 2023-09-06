@@ -1,26 +1,22 @@
 import axios from 'axios';
 
-export const getInstaPostData = async (username, sessionID, csrfToken, proxy) => {
-  const baseURL = proxy ? `http://${proxy}` : 'https://i.instagram.com/api/v1';
-  const profileInfoEndpoint = `/users/web_profile_info/?username=${username}`;
-
+export const fetchUserData = async () => {
   try {
-    const data = await axios.get(baseURL + profileInfoEndpoint);
-    if (data.graphql && data.graphql.user) {
-      const { edge_owner_to_timeline_media } =  data.graphql.user.edge_owner_to_timeline_media;
-      if (edge_owner_to_timeline_media.edges.length > 0) {
-        const last12Posts = edge_owner_to_timeline_media.edges.slice(0, 12);
-        const postURLs = last12Posts.map(
-          (post) => `https://www.instagram.com/p/${post.node.shortcode}/`
-        );
-        console.log('Last 12 post URLs:', postURLs);
-      } else {
-        console.log('No posts found for this user.');
-      }
-    } else {
-      console.log('User data not found.');
-    }
+      const response = await axios.get('http://localhost:3001/api/userdata');
+      return response.data;
   } catch (error) {
-    console.error('Error:', error.message);
+      console.error('Error fetching data:', error);
+  }
+};
+export const fetchInstagramData = async (user) => {
+  try {
+      const response = await axios.get('http://localhost:3001/api/instagram', {
+        params: {
+          user: `${user}`,
+        },
+      });
+      return response.data?.data?.user?.edge_related_profiles;
+  } catch (error) {
+      console.error('Error fetching data:', error);
   }
 };
